@@ -1,0 +1,59 @@
+<component name="libraryTable">
+  <library name="ejml-cdense-0.41">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/ejml-cdense-0.41.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-core-0.41.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-ddense-0.41.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-dsparse-0.41.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-experimental-0.41.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-fdense-0.41.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-simple-0.41.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-zdense-0.41.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/libs/ejml-cdense-0.41-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-core-0.41-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-ddense-0.41-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-dsparse-0.41-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-experimental-0.41-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-fdense-0.41-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-simple-0.41-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-zdense-0.41-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/examples/src" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/examples/test" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/autocode/src" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-all/src" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-cdense/src" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-cdense/test" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-core/generate" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-core/src" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-core/test" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-ddense/benchmarks/src" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-ddense/generate" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-ddense/src" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-ddense/test" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-dsparse/benchmarks/src" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-dsparse/src" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-dsparse/test" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-experimental/benchmarks/src" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-experimental/benchmarks/test" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-experimental/src" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-experimental/test" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-fdense/src" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-fdense/test" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-fsparse/src" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-fsparse/test" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-simple/src" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-simple/test" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-zdense/benchmarks/src" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-zdense/generate" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-zdense/src" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/main/ejml-zdense/test" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/regression/src" />
+      <root url="jar://$PROJECT_DIR$/libs/ejml-0.41-src.zip!/ejml/regression/test" />
+    </SOURCES>
+  </library>
+</component>
