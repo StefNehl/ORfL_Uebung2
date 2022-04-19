@@ -5,6 +5,7 @@ public class BusQueuingSystem
 {
     private double lambda; //Ankunftsrate
     private double mu; // Bedienungsrate
+    private double mus[]; //Bedienugsraten
     private double roh; //traffic intensity
     private int nrOfMechanics;
     private int nrOfVehicles;
@@ -17,6 +18,8 @@ public class BusQueuingSystem
     private double averageTimeInQueue;
     private double averageTimeInRepair;
 
+    private double[] pis;
+
     public BusQueuingSystem(int nrOfVehicles,
                             int nrOfMechanics,
                             int averageDaysToRepair,
@@ -26,11 +29,64 @@ public class BusQueuingSystem
         this.nrOfVehicles = nrOfVehicles;
 
         lambda = 1/(double)averageDaysToRepair;
-        mu = (this.nrOfVehicles - this.nrOfMechanics) * lambda;
+        mu = 2;//(this.nrOfVehicles - this.nrOfMechanics) * lambda;
+        mus = new double[nrOfVehicles];
+
+        for(int i = 0; i < mus.length; i++)
+        {
+            if(i < nrOfMechanics - 1)
+                mus[i] = (i + 1) * mu;
+            else
+                mus[i] = nrOfMechanics * mu;
+        }
+
         roh = lambda / mu;
+
+        //States in queue
+        pis = new double[nrOfVehicles + 1];
+        calculatePIs();
 
         calculateNumberOfVehicles();
         calculateTimes();
+    }
+
+    private void calculatePIs()
+    {
+        //calculate pis  without pi[0]
+        var sumWithoutPi0 = 0.0;
+        for(int i = 1; i <= nrOfMechanics; i++)
+        {
+            var result = calculateBinom(nrOfVehicles, i) * Math.pow(roh, i);
+            pis[i] = result;
+            sumWithoutPi0 += result;
+        }
+
+        //calculate pi[0]
+        pis[0] = 1 / sumWithoutPi0;
+        for(int i = 1; i <= nrOfMechanics; i++)
+        {
+            pis[i] = pis[i] * pis[0];
+        }
+
+        for(int i = nrOfMechanics; i < pis.length; i++)
+        {
+            var result = (calculateBinom(nrOfVehicles, i) * Math.pow(roh, i) * calculateFactorial(i) * pis[0]) /
+                    (calculateFactorial(nrOfMechanics) * Math.pow(nrOfMechanics, i - nrOfMechanics));
+            pis[i] = result;
+        }
+    }
+
+    private double calculateBinom(int n, int k )
+    {
+        return calculateFactorial(n) / (calculateFactorial(k) * calculateFactorial(n - k));
+    }
+
+    private double calculateFactorial(int n)
+    {
+        if (n == 0)
+            return 1;
+        else
+            return(n * calculateFactorial(n-1));
     }
 
     private void calculateNumberOfVehicles()
@@ -71,6 +127,11 @@ public class BusQueuingSystem
         return averageTimeInRepair;
     }
 
+    public double[] getPis()
+    {
+        return pis;
+    }
+
     @Override
     public String toString()
     {
@@ -81,6 +142,18 @@ public class BusQueuingSystem
         result += "Average Time in System: " + averageTimeInSystem + "\n";
         result += "Average Time in Queue: " + averageTimeInQueue + "\n";
         result += "Average Time in Repair: " + averageTimeInRepair + "\n";
+
+        result += "\n";
+        result += "PIs:\n";
+
+        for(int i = 0; i < pis.length; i++)
+        {
+            var row = "P_" + i + ": ";
+            row += pis[i];
+            row += "\n";
+            result += row;
+        }
+
 
         return result;
     }
