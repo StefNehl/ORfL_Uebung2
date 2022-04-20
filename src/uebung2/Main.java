@@ -30,6 +30,12 @@ public class Main
         int maxNumberOfMechanics = 3;
         int numberOfSystems = (maxNumberOfMechanics - minNumberOfMechanics) + 1;
 
+        if(numberOfSystems < 1)
+        {
+            System.out.println("Check min and max mechanics!");
+            return;
+        }
+
         nrOfVehicles = 60;
         averageDaysToRepair = 20;
         averageRepairTimeInDays = 0.5;
