@@ -4,42 +4,84 @@ import org.knowm.xchart.QuickChart;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main
 {
     public static void main(String[] args)
     {
-	    // write your code here
-        int nrOfVehicles = 60;
+        //Example from Book P.1101 (for testing)
+        int nrOfVehicles = 5;
         int nrOfMechanics = 2;
-        int averageDaysToRepair = 20;
-        double averageRepairTimeInDays = 0.5;
+        int averageDaysToRepair = 30;
+        double averageRepairTimeInDays = 3;
 
-        var system_2mech = new BusQueuingSystem(nrOfVehicles,
+        var system_book = new BusQueuingSystem(nrOfVehicles,
                 nrOfMechanics,
                 averageDaysToRepair,
                 averageRepairTimeInDays);
 
-        System.out.println(system_2mech);
+        System.out.println(system_book);
 
-        nrOfMechanics = 3;
-        var system_3mech = new BusQueuingSystem(nrOfVehicles,
-                nrOfMechanics,
-                averageDaysToRepair,
-                averageRepairTimeInDays);
+        //Examples
 
-        System.out.println(system_3mech);
+        int minNumberOfMechanics = 2;
+        int maxNumberOfMechanics = 3;
+        int numberOfSystems = (maxNumberOfMechanics - minNumberOfMechanics) + 1;
 
-        double[][] pis = {
-                system_2mech.getPis(),
-                system_3mech.getPis()
-        };
+        nrOfVehicles = 60;
+        averageDaysToRepair = 20;
+        averageRepairTimeInDays = 0.5;
 
-        String[] seriesNames = {
-                "Nr of Mechanics: " + system_2mech.getNrOfMechanics(),
-                "Nr of Mechanics: " + system_3mech.getNrOfMechanics()
-        };
+        BusQueuingSystem[] systems = new BusQueuingSystem[numberOfSystems];
+        double[][] pis = new double[numberOfSystems][nrOfVehicles + 1];
+        String[] seriesNames = new String[numberOfSystems];
 
+        for(int i = minNumberOfMechanics; i <= maxNumberOfMechanics; i++)
+        {
+            nrOfMechanics = i;
+            var system = new BusQueuingSystem(nrOfVehicles,
+                    nrOfMechanics,
+                    averageDaysToRepair,
+                    averageRepairTimeInDays);
+
+            System.out.println(system);
+            systems[i - minNumberOfMechanics] = system;
+            pis[i - minNumberOfMechanics] = system.getPis();
+            seriesNames[i - minNumberOfMechanics] = "Nr of Mechanics: " + system.getNrOfMechanics();
+
+        }
+
+        printResult(systems);
         plotPIs(pis, seriesNames);
+    }
+
+    public static void printResult(BusQueuingSystem[] systems)
+    {
+        System.out.println("durchschnittliche Anzahl an Autobussen, die betriesbereit sind:");
+        for (BusQueuingSystem system : systems)
+        {
+            System.out.printf(system.getNrOfMechanics() + " Mechaniker: %.0f ", system.getAverageNumberOfVehiclesInQueue());
+            System.out.println();
+        }
+        System.out.println();
+
+        System.out.println("durchschnittliche Zeit für die Reparatur:");
+        for (BusQueuingSystem system : systems)
+        {
+            System.out.printf(system.getNrOfMechanics() + " Mechaniker: %.4f ", system.getAverageTimeInRepair());
+            System.out.println("[Tage]");
+        }
+        System.out.println();
+
+        System.out.println("Anteil der Zeit ohne Auftrag:");
+        for (BusQueuingSystem system : systems)
+        {
+            System.out.printf(system.getNrOfMechanics() + " Mechaniker: %.2f ", system.getFractionOfIdleTime() * 100);
+            System.out.println("[%]");
+        }
+        System.out.println();
     }
 
     public static void plotPIs(double[][] pis, String[] seriesNames)

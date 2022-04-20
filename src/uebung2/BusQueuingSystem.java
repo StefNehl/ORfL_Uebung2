@@ -21,6 +21,7 @@ public class BusQueuingSystem
     private double averageTimeInRepair;
 
     private double[] pis;
+    private double fractionOfIdleTime;
 
     public BusQueuingSystem(int nrOfVehicles,
                             int nrOfMechanics,
@@ -31,7 +32,7 @@ public class BusQueuingSystem
         this.nrOfVehicles = nrOfVehicles;
 
         lambda = 1/(double)averageDaysToRepair;
-        mu = 2;//(this.nrOfVehicles - this.nrOfMechanics) * lambda;
+        mu = 1/averageRepairTimeInDays;
 
         roh = lambda / mu;
 
@@ -46,26 +47,30 @@ public class BusQueuingSystem
     private void calculatePIs()
     {
         //calculate pis  without pi[0]
-        var sumWithoutPi0 = 0.0;
-        for(int i = 1; i <= nrOfMechanics; i++)
+        var sumWithoutPi0 = 1.0;
+        for(int i = 1; i < pis.length; i++)
         {
-            var result = calculateBinom(nrOfVehicles, i) * Math.pow(roh, i);
-            pis[i] = result;
-            sumWithoutPi0 += result;
+            if(i <= nrOfMechanics)
+            {
+                var result = calculateBinom(nrOfVehicles, i) * Math.pow(roh, i);
+                pis[i] = result;
+                sumWithoutPi0 += result;
+            }
+            else
+            {
+                var result = (calculateBinom(nrOfVehicles, i) * Math.pow(roh, i) * calculateFactorial(i)) /
+                        (calculateFactorial(nrOfMechanics) * Math.pow(nrOfMechanics, i - nrOfMechanics));
+                pis[i] = result;
+                sumWithoutPi0 += result;
+            }
+
         }
 
         //calculate pi[0]
         pis[0] = 1 / sumWithoutPi0;
-        for(int i = 1; i <= nrOfMechanics; i++)
+        for(int i = 1; i < pis.length; i++)
         {
             pis[i] = pis[i] * pis[0];
-        }
-
-        for(int i = nrOfMechanics; i < pis.length; i++)
-        {
-            var result = (calculateBinom(nrOfVehicles, i) * Math.pow(roh, i) * calculateFactorial(i) * pis[0]) /
-                    (calculateFactorial(nrOfMechanics) * Math.pow(nrOfMechanics, i - nrOfMechanics));
-            pis[i] = result;
         }
     }
 
@@ -87,7 +92,7 @@ public class BusQueuingSystem
         averageNumberOfVehiclesInRepair = 0;
 
         for(int i = 0; i < pis.length; i++)
-            averageNumberOfVehiclesInRepair += pis[i];
+            averageNumberOfVehiclesInRepair += (pis[i] * i);
 
         averageNumberOfVehiclesInQueue = nrOfVehicles - averageNumberOfVehiclesInRepair;
     }
@@ -101,6 +106,12 @@ public class BusQueuingSystem
 
         averageTimeInRepair = averageNumberOfVehiclesInRepair / averageLambda;
         averageTimeInQueue = averageNumberOfVehiclesInQueue / averageLambda;
+
+        fractionOfIdleTime = pis[0];
+        for(int i = 1; i < nrOfMechanics; i++)
+        {
+            fractionOfIdleTime += (nrOfMechanics - 1) * pis[i] / nrOfMechanics;
+        }
     }
 
     public double getAverageNumberOfVehiclesInQueue() {
@@ -124,6 +135,11 @@ public class BusQueuingSystem
         return nrOfMechanics;
     }
 
+    public double getFractionOfIdleTime()
+    {
+        return fractionOfIdleTime;
+    }
+
     public double[] getPis()
     {
         return pis;
@@ -133,12 +149,16 @@ public class BusQueuingSystem
     public String toString()
     {
         String result = "";
-        result += "Number of Mechanics: " + nrOfMechanics;
+        result += "Number of Mechanics: " + nrOfMechanics + "\n";
         result += "Number of Vehicles in System: " + nrOfVehicles + "\n";
-        result += "Average Number of Vehicles in Queue: " + averageNumberOfVehiclesInQueue + "\n";
+        result += "lambda: " + lambda + "\n";
+        result += "mu: " + mu + "\n";
+        result += "roh: " + roh + "\n";
+        result += "Average Number of Vehicles ready: " + averageNumberOfVehiclesInQueue + "\n";
         result += "Average Number of Vehicles in Repair: " + averageNumberOfVehiclesInRepair + "\n";
         result += "Average Time in Queue [days]: " + averageTimeInQueue + "\n";
         result += "Average Time in Repair [days]: " + averageTimeInRepair + "\n";
+        result += "Fraction of idle time of a particular worker: " + fractionOfIdleTime + "\n";
 
         result += "\n";
         result += "PIs:\n";
