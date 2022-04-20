@@ -14,11 +14,41 @@ public class Main
         int averageDaysToRepair = 20;
         double averageRepairTimeInDays = 0.5;
 
-        var system = new BusQueuingSystem(nrOfVehicles,
+        var system_2mech = new BusQueuingSystem(nrOfVehicles,
                 nrOfMechanics,
                 averageDaysToRepair,
                 averageRepairTimeInDays);
 
-        System.out.println(system);
+        System.out.println(system_2mech);
+
+        nrOfMechanics = 3;
+        var system_3mech = new BusQueuingSystem(nrOfVehicles,
+                nrOfMechanics,
+                averageDaysToRepair,
+                averageRepairTimeInDays);
+
+        System.out.println(system_3mech);
+
+        double[][] pis = {
+                system_2mech.getPis(),
+                system_3mech.getPis()
+        };
+
+        String[] seriesNames = {
+                "Nr of Mechanics: " + system_2mech.getNrOfMechanics(),
+                "Nr of Mechanics: " + system_3mech.getNrOfMechanics()
+        };
+
+        plotPIs(pis, seriesNames);
+    }
+
+    public static void plotPIs(double[][] pis, String[] seriesNames)
+    {
+        double[] t = new double[pis[0].length];
+        for(int i = 0; i < t.length; i++)
+            t[i] = i;
+
+        XYChart chart = QuickChart.getChart("PIs", "Vehicles", "PI(V)", seriesNames, t, pis);
+        new SwingWrapper<XYChart>(chart).displayChart();
     }
 }

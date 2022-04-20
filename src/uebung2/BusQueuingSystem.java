@@ -1,20 +1,22 @@
 package uebung2;
 
+import org.knowm.xchart.QuickChart;
+import org.knowm.xchart.SwingWrapper;
+import org.knowm.xchart.XYChart;
+
 //M/M/NrOfMechanics/GD/NrOfVehicles/Population NrOfMechanics
 public class BusQueuingSystem
 {
     private double lambda; //Ankunftsrate
+    private double averageLambda;
     private double mu; // Bedienungsrate
-    private double mus[]; //Bedienugsraten
     private double roh; //traffic intensity
     private int nrOfMechanics;
     private int nrOfVehicles;
 
-    private double averageNumberOfVehiclesInSystem;
     private double averageNumberOfVehiclesInQueue;
     private double averageNumberOfVehiclesInRepair;
 
-    private double averageTimeInSystem;
     private double averageTimeInQueue;
     private double averageTimeInRepair;
 
@@ -30,15 +32,6 @@ public class BusQueuingSystem
 
         lambda = 1/(double)averageDaysToRepair;
         mu = 2;//(this.nrOfVehicles - this.nrOfMechanics) * lambda;
-        mus = new double[nrOfVehicles];
-
-        for(int i = 0; i < mus.length; i++)
-        {
-            if(i < nrOfMechanics - 1)
-                mus[i] = (i + 1) * mu;
-            else
-                mus[i] = nrOfMechanics * mu;
-        }
 
         roh = lambda / mu;
 
@@ -91,32 +84,31 @@ public class BusQueuingSystem
 
     private void calculateNumberOfVehicles()
     {
-        averageNumberOfVehiclesInSystem = roh / (1 - roh);
-        averageNumberOfVehiclesInQueue = Math.pow(roh, 2) / (1 - roh);
-        averageNumberOfVehiclesInRepair = roh;
+        averageNumberOfVehiclesInRepair = 0;
+
+        for(int i = 0; i < pis.length; i++)
+            averageNumberOfVehiclesInRepair += pis[i];
+
+        averageNumberOfVehiclesInQueue = nrOfVehicles - averageNumberOfVehiclesInRepair;
     }
 
     private void calculateTimes()
     {
-        averageTimeInSystem = 1/(mu - lambda);
-        averageTimeInQueue = lambda/(mu * (mu * lambda));
-        averageTimeInRepair = 1 / mu;
+        for(int i = 0; i < pis.length; i++)
+        {
+            averageLambda += lambda * (nrOfVehicles - i) * pis[i];
+        }
+
+        averageTimeInRepair = averageNumberOfVehiclesInRepair / averageLambda;
+        averageTimeInQueue = averageNumberOfVehiclesInQueue / averageLambda;
     }
 
     public double getAverageNumberOfVehiclesInQueue() {
         return averageNumberOfVehiclesInQueue;
     }
 
-    public double getAverageNumberOfVehiclesInSystem(){
-        return averageNumberOfVehiclesInSystem;
-    }
-
     public double getAverageNumberOfVehiclesInRepair(){
         return averageNumberOfVehiclesInRepair;
-    }
-
-    public double getAverageTimeInSystem(){
-        return averageTimeInSystem;
     }
 
     public double getAverageTimeInQueue() {
@@ -125,6 +117,11 @@ public class BusQueuingSystem
 
     public double getAverageTimeInRepair() {
         return averageTimeInRepair;
+    }
+
+    public int getNrOfMechanics()
+    {
+        return nrOfMechanics;
     }
 
     public double[] getPis()
@@ -136,12 +133,12 @@ public class BusQueuingSystem
     public String toString()
     {
         String result = "";
-        result += "Average Number of Vehicles in System: " + averageNumberOfVehiclesInSystem + "\n";
+        result += "Number of Mechanics: " + nrOfMechanics;
+        result += "Number of Vehicles in System: " + nrOfVehicles + "\n";
         result += "Average Number of Vehicles in Queue: " + averageNumberOfVehiclesInQueue + "\n";
         result += "Average Number of Vehicles in Repair: " + averageNumberOfVehiclesInRepair + "\n";
-        result += "Average Time in System: " + averageTimeInSystem + "\n";
-        result += "Average Time in Queue: " + averageTimeInQueue + "\n";
-        result += "Average Time in Repair: " + averageTimeInRepair + "\n";
+        result += "Average Time in Queue [days]: " + averageTimeInQueue + "\n";
+        result += "Average Time in Repair [days]: " + averageTimeInRepair + "\n";
 
         result += "\n";
         result += "PIs:\n";
@@ -157,4 +154,6 @@ public class BusQueuingSystem
 
         return result;
     }
+
+
 }
