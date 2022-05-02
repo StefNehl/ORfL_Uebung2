@@ -1,3 +1,5 @@
+//Nehl 00935199
+
 package uebung2;
 
 import org.knowm.xchart.QuickChart;
