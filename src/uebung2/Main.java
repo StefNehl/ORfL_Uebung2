@@ -28,7 +28,7 @@ public class Main
 
         //Examples
 
-        int minNumberOfMechanics = 2;
+        int minNumberOfMechanics = 1;
         int maxNumberOfMechanics = 3;
         int numberOfSystems = (maxNumberOfMechanics - minNumberOfMechanics) + 1;
 
