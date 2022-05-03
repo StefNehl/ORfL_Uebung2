@@ -75,7 +75,7 @@ public class Main
         }
         System.out.println();
 
-        System.out.println("durchschnittliche Zeit für die Reparatur:");
+        System.out.println("durchschnittliche Zeit bis ein Fahrzeug Repariert ist:");
         for (BusQueuingSystem system : systems)
         {
             System.out.printf(system.getNrOfMechanics() + " Mechaniker: %.4f ", system.getAverageTimeInRepair());
